@@ -1,0 +1,3 @@
+- fix part0 exercises
+- add part0 exercise
+- continue from 1.c
