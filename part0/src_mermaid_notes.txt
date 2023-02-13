@@ -1,0 +1,45 @@
+sequenceDiagram
+    participant browser
+    participant server
+    
+    # exercise 0.4 new note
+
+    note over browser: user submits a note to the server
+    browser->>server: HTTP POST https://studies.cs.helsinki.fi/exampleapp/new_note
+    note over server: new object is created on the server
+    server->>browser: 302 redirect
+    note over browser: page is recreated (refreshed/reopened) and new HTML code requested
+    browser->>server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/notes
+    server-->>browser: HTML code
+    browser->>server: header request: HTTP GET https://studies.cs.helsinki.fi/exampleapp/main.css
+    server-->>browser: main.css
+    browser->>server: header request: HTTP https://studies.cs.helsinki.fi/exampleapp/main.js
+    server-->>browser: main.js
+    note over browser: execute main.js and request data
+    browser->>server: request: GET https://studies.cs.helsinki.fi/exampleapp/data.json
+    server-->>browser: data.json
+    note over browser: render data.json
+    browser->>server: request: HTTP GET https://studies.cs.helsinki.fi/favicon.ico
+    server-->>browser: favicon.ico
+
+    #exercise 0.5 single page app (spa)
+
+    browser->>server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/spa
+    server-->>browser: HTML code
+    browser->>server: header request: HTTP GET https://studies.cs.helsinki.fi/exampleapp/main.css
+    server-->>browser: main.css
+    browser->>server: header request: HTTP GET https://studies.cs.helsinki.fi/exampleapp/spa.js
+    server-->>browser: spa.js
+    note over browser: execute main.js
+    browser->>server: data request: HTTP GET https://studies.cs.helsinki.fi/exampleapp/data.json
+    server-->>browser: data.json
+    note over browser: render data.json
+    browser->>server: request: HTTP GET https://studies.cs.helsinki.fi/favicon.ico
+    server-->>browser: favicon.ico
+
+    #exercise 0.6 new note on spa
+
+    note over browser: user submits a note to the server
+    browser->>server: HTTP POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa
+    server-->>browser: HTTP 201
+    note over browser: spa.js renders the new data, no reloading.
